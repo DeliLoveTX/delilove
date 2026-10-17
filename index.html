@@ -28,10 +28,11 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,
 
 <div id="main" class="hidden">
 <header class="top"><h1>DeliLove 💗</h1><small id="hi"></small><br><span class="bal" id="bal"></span></header>
-<section class="pg on" id="home"><h2>¿Qué le mandamos hoy?</h2><div class="chips" id="chips"></div><div class="grid" id="foods"></div></section>
+<section class="pg on" id="home"><h2>¿Qué le mandamos hoy?</h2><input class="in" id="q" placeholder="🔎 Buscar comida o acciones" oninput="drawFoods()" style="margin:0 0 12px"><div class="chips" id="chips"></div><div class="grid" id="foods"></div></section>
 <section class="pg" id="inbox"><h2>📥 Recibidos</h2><div id="recv"></div><h2>📤 Enviados</h2><div id="sent"></div></section>
 <section class="pg" id="me"><h2>Tu perfil</h2><div class="msg"><h4 id="meName"></h4><p>Compartí tu usuario con tu pareja para que pueda mandarte comida.</p></div><p style="font-size:12px;color:var(--muted)">Dinero 100% ficticio. No se hacen cobros ni entregas reales.</p><button class="btn sec" onclick="logout()">Cerrar sesión</button></section>
-<nav><button class="on" data-p="home" onclick="show('home')"><b>🍽️</b>Menú</button><button data-p="cart" onclick="openCart()"><b>🛍️</b>Pedido<span class="dot hidden" id="cb">0</span></button><button data-p="inbox" onclick="show('inbox')"><b>💌</b>Mensajes<span class="dot hidden" id="ib">0</span></button><button data-p="me" onclick="show('me')"><b>👤</b>Perfil</button></nav>
+<section class="pg" id="admin"><h2>🛠️ Panel de dinero</h2><div class="msg"><p>Regalá dinero de juego a cualquier usuario (también a vos).</p><input class="in" id="aU" placeholder="@usuario" autocapitalize="none"><input class="in" id="aM" type="number" inputmode="numeric" placeholder="Monto (ej. 5000)"><div class="err" id="aE"></div><button class="btn" onclick="giveMoney()">Dar dinero 💰</button></div></section>
+<nav><button class="on" data-p="home" onclick="show('home')"><b>🍽️</b>Menú</button><button data-p="cart" onclick="openCart()"><b>🛍️</b>Pedido<span class="dot hidden" id="cb">0</span></button><button data-p="inbox" onclick="show('inbox')"><b>💌</b>Mensajes<span class="dot hidden" id="ib">0</span></button><button class="hidden" id="navAdmin" data-p="admin" onclick="show('admin')"><b>🛠️</b>Admin</button><button data-p="me" onclick="show('me')"><b>👤</b>Perfil</button></nav>
 </div></main>
 <div class="mb" id="mb" onclick="if(event.target===this)closeM()"><div class="md" id="md"></div></div><div class="toast" id="toast"></div>
 
@@ -43,9 +44,73 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,
 firebase.initializeApp({apiKey:"AIzaSyB6hMsLtpfqhk1GQoPXiqPQvz_EMrzadYQ",authDomain:"delilove.firebaseapp.com",projectId:"delilove",storageBucket:"delilove.firebasestorage.app",messagingSenderId:"11984177992",appId:"1:11984177992:web:0680746022164c4550817d"});
 // =========================================================================================
 const auth=firebase.auth(),db=firebase.firestore(),FV=firebase.firestore.FieldValue;
-const FOODS=[{n:'Burger clásica',c:'Hamburguesas',e:'🍔',p:4500,r:'Burger House'},{n:'Pizza muzzarella',c:'Pizzas',e:'🍕',p:6200,r:'La Pizzería'},{n:'Combo sushi',c:'Sushi',e:'🍣',p:7800,r:'Umami Sushi'},{n:'Papas crocantes',c:'Hamburguesas',e:'🍟',p:2000,r:'Burger House'},{n:'Torta de chocolate',c:'Postres',e:'🍰',p:2800,r:'Dulce Tentación'},{n:'Limonada',c:'Bebidas',e:'🍋',p:1200,r:'Dulce Tentación'}];
-const CATS=['Todos','Hamburguesas','Pizzas','Sushi','Postres','Bebidas'],STEPS=['Pedido recibido','En preparación','En camino','¡Entregado!'],START=20000;
+const FOODS=`Acciones|🤗|Abrazo|100|Con cariño
+Acciones|😘|Beso|150|Con cariño
+Acciones|🫂|Abrazo gigante|400|Con cariño
+Acciones|💋|Mil besitos|300|Con cariño
+Acciones|🥰|Mimitos|200|Con cariño
+Acciones|🫶|Corazón|100|Con cariño
+Acciones|☀️|Buenos días|100|Con cariño
+Acciones|🌙|Buenas noches|100|Con cariño
+Acciones|💞|Te extraño|100|Con cariño
+Acciones|💌|Carta de amor|300|Con cariño
+Acciones|🌹|Rosa|800|Detalles
+Acciones|💐|Ramo de flores|1500|Detalles
+Acciones|🧸|Peluche|2500|Detalles
+Acciones|🎵|Canción dedicada|500|Detalles
+Acciones|🎁|Regalo sorpresa|2000|Detalles
+Hamburguesas|🍔|Burger clásica|4500|Burger House
+Hamburguesas|🧀|Cheeseburger doble|5800|Burger House
+Hamburguesas|🥓|Burger con bacon|6200|Burger House
+Hamburguesas|🍟|Papas crocantes|2000|Burger House
+Hamburguesas|🌭|Pancho completo|2500|Burger House
+Hamburguesas|🍗|Pollo frito|5200|Crunchy Chicken
+Hamburguesas|🥪|Sándwich de milanesa|4800|Crunchy Chicken
+Pizzas|🍕|Pizza muzzarella|6200|La Pizzería
+Pizzas|🍕|Pizza napolitana|7000|La Pizzería
+Pizzas|🍕|Pizza pepperoni|7400|La Pizzería
+Pizzas|🧄|Fugazzeta|7200|La Pizzería
+Pizzas|🥟|Empanadas x6|4200|La Pizzería
+Pizzas|🥖|Pan de ajo|2200|La Pizzería
+Sushi|🍣|Combo sushi|7800|Umami Sushi
+Sushi|🍱|Bento box|8500|Umami Sushi
+Sushi|🍤|Tempura de langostinos|6500|Umami Sushi
+Sushi|🍜|Ramen|7200|Umami Sushi
+Sushi|🍙|Onigiri|2400|Umami Sushi
+Tacos|🌮|Tacos x3|5200|Casa Pancho
+Tacos|🌯|Burrito|5600|Casa Pancho
+Tacos|🧆|Nachos con queso|3800|Casa Pancho
+Tacos|🥑|Guacamole|3000|Casa Pancho
+Pastas|🍝|Spaghetti|6000|Nonna Pasta
+Pastas|🍝|Ravioles|6800|Nonna Pasta
+Pastas|🍲|Lasagna|7500|Nonna Pasta
+Pastas|🥗|Ensalada césar|4500|Nonna Pasta
+Postres|🍰|Torta de chocolate|2800|Dulce Tentación
+Postres|🧁|Cupcake|1800|Dulce Tentación
+Postres|🍩|Donas x3|2600|Dulce Tentación
+Postres|🍪|Cookies|2000|Dulce Tentación
+Postres|🍓|Frutillas con chocolate|5400|Dulce Tentación
+Postres|🍮|Flan con dulce de leche|2500|Dulce Tentación
+Postres|🥧|Cheesecake|3200|Dulce Tentación
+Helados|🍦|Cono de helado|1800|Frío Polar
+Helados|🍨|Pote de helado|4000|Frío Polar
+Helados|🍧|Raspado|1500|Frío Polar
+Helados|🍫|Banana split|3500|Frío Polar
+Bebidas|🍋|Limonada|1200|Café Bonito
+Bebidas|🥤|Frappé rosa|2800|Café Bonito
+Bebidas|🧋|Bubble tea|3200|Café Bonito
+Bebidas|☕|Café con leche|1500|Café Bonito
+Bebidas|🍫|Chocolate caliente|2200|Café Bonito
+Bebidas|🧃|Jugo natural|1800|Café Bonito
+Bebidas|🍹|Licuado de frutilla|2600|Café Bonito
+Desayuno|🥐|Medialunas x3|2400|Buen Día
+Desayuno|🥞|Panqueques|3600|Buen Día
+Desayuno|🍳|Desayuno completo|4800|Buen Día
+Desayuno|🧇|Waffles|3800|Buen Día
+Desayuno|🍞|Tostadas con palta|2800|Buen Día`.split('\n').map(l=>{const[c,e,n,p,r]=l.split('|');return{c,e,n,p:+p,r}});
+const CATS=['Todos','Acciones','Hamburguesas','Pizzas','Sushi','Tacos','Pastas','Postres','Helados','Bebidas','Desayuno'],STEPS=['Pedido recibido','En preparación','En camino','¡Entregado!'],STEPS_A=['Enviando…','Viajando por el aire ✨','Casi llega','¡Recibido con amor! 💗'],START=20000;
 let me=null,cart={},cat='Todos',recv=[],sent=[],unsubs=[],ready={r:false,s:false},mode='L';
+const ADMIN='facundoyair';
 const $=id=>document.getElementById(id),money=n=>'$'+n.toLocaleString('es-AR'),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),cleanU=s=>s.trim().toLowerCase().replace(/^@/,'');
 function toast(t){const x=$('toast');x.textContent=t;x.classList.add('on');clearTimeout(x.t);x.t=setTimeout(()=>x.classList.remove('on'),3500)}
 function tab(m){mode=m;$('tL').classList.toggle('on',m==='L');$('tR').classList.toggle('on',m==='R');$('go').textContent=m==='L'?'Entrar':'Crear mi cuenta';$('err').textContent=''}
@@ -57,12 +122,17 @@ async function submitAuth(){const u=cleanU($('u').value),p=$('p').value,e=$('err
   b.set(db.collection('usernames').doc(u),{uid:cr.user.uid});b.set(db.collection('users').doc(cr.user.uid),{username:u,balance:START,createdAt:FV.serverTimestamp()});await b.commit()}}
  catch(x){console.error(x);const m={'taken':'Ese usuario ya existe','auth/email-already-in-use':'Ese usuario ya existe','auth/invalid-credential':'Usuario o contraseña incorrectos','auth/wrong-password':'Usuario o contraseña incorrectos','auth/user-not-found':'Ese usuario no existe','auth/network-request-failed':'Sin conexión','permission-denied':'Error de permisos: revisá las reglas de Firestore','auth/operation-not-allowed':'Falta activar Correo/contraseña en Authentication'};e.textContent=m[x.code]||'No se pudo continuar. Probá de nuevo.'}
  $('go').disabled=false}
+async function giveMoney(){const u=cleanU($('aU').value),n=parseInt($('aM').value),e=$('aE');e.textContent='';
+ if(!u)return e.textContent='Escribí el usuario';if(!(n>0&&n<=1000000))return e.textContent='Monto entre 1 y 1.000.000';
+ try{const t=await db.collection('usernames').doc(u).get();if(!t.exists)return e.textContent='Ese usuario no existe';
+  await db.collection('users').doc(t.data().uid).update({balance:FV.increment(n)});toast('💰 Le diste '+money(n)+' a @'+u);$('aU').value='';$('aM').value=''}
+ catch(x){console.error(x);e.textContent='No se pudo. ¿Publicaste las reglas nuevas?'}}
 function logout(){auth.signOut()}
 auth.onAuthStateChanged(async u=>{unsubs.forEach(f=>f());unsubs=[];ready={r:false,s:false};
  if(!u){me=null;$('auth').classList.remove('hidden');$('main').classList.add('hidden');return}
  let snap;for(let i=0;i<6;i++){snap=await db.collection('users').doc(u.uid).get();if(snap.exists)break;await new Promise(r=>setTimeout(r,500))}
  if(!snap.exists){toast('Error cargando tu perfil');return}
- me={uid:u.uid,...snap.data()};$('auth').classList.add('hidden');$('main').classList.remove('hidden');$('hi').textContent='Hola, @'+me.username;$('meName').textContent='@'+me.username;
+ me={uid:u.uid,...snap.data()};$('auth').classList.add('hidden');$('main').classList.remove('hidden');$('hi').textContent='Hola, @'+me.username;$('meName').textContent='@'+me.username;$('navAdmin').classList.toggle('hidden',me.username!==ADMIN);
  unsubs.push(db.collection('users').doc(u.uid).onSnapshot(s=>{me={...me,...s.data()};$('bal').textContent='💰 '+money(me.balance)+' (dinero de juego)'}));
  unsubs.push(db.collection('orders').where('toUid','==',u.uid).onSnapshot(s=>{recv=s.docs.map(d=>({id:d.id,...d.data()}));
   if(ready.r)s.docChanges().forEach(c=>{if(c.type==='added'&&!c.doc.metadata.hasPendingWrites){const o=c.doc.data();notify(`💗 @${o.fromName} te está enviando ${o.items.map(i=>i.qty+' '+i.n).join(', ')}`)}});ready.r=true;draw()}));
@@ -73,12 +143,13 @@ function show(p){document.querySelectorAll('.pg').forEach(x=>x.classList.toggle(
  if(p==='inbox'){markSeen();try{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission()}catch(e){}}draw();scrollTo(0,0)}
 function markSeen(){recv.filter(o=>!o.seen).forEach(o=>db.collection('orders').doc(o.id).update({seen:true}).catch(()=>{}))}
 function drawFoods(){$('chips').innerHTML=CATS.map(c=>`<button class="chip ${c===cat?'on':''}" onclick="cat='${c}';drawFoods()">${c}</button>`).join('');
- $('foods').innerHTML=FOODS.map((f,i)=>({f,i})).filter(x=>cat==='Todos'||x.f.c===cat).map(({f,i})=>`<article class="card"><div class="pic">${f.e}</div><div class="cb"><b>${f.n}</b><small>${f.r}</small><div class="row"><b style="color:var(--deep)">${money(f.p)}</b><button class="add" onclick="addC(${i})">+</button></div></div></article>`).join('')}
+ $('foods').innerHTML=FOODS.map((f,i)=>({f,i})).filter(x=>(cat==='Todos'||x.f.c===cat)&&(x.f.n+' '+x.f.c).toLowerCase().includes((($('q')||{}).value||'').toLowerCase())).map(({f,i})=>`<article class="card"><div class="pic">${f.e}</div><div class="cb"><b>${f.n}</b><small>${f.r}</small><div class="row"><b style="color:var(--deep)">${money(f.p)}</b><button class="add" onclick="addC(${i})">+</button></div></div></article>`).join('')}
 function addC(i){cart[i]=(cart[i]||0)+1;draw();toast('Agregado 💗')}
 const cartTotal=()=>Object.entries(cart).reduce((s,[i,q])=>s+FOODS[i].p*q,0);
-function status(o){const t=o.createdAt?(Date.now()-o.createdAt.toMillis())/1000:0;return t<15?0:t<45?1:t<90?2:3}
-function orderCard(o,isRecv){const s=status(o),title=isRecv?`💗 @${esc(o.fromName)} te está enviando comida`:`Para @${esc(o.toName)}`;
- return `<div class="msg ${isRecv&&!o.seen?'new':''}"><h4>${title}</h4><p>${o.items.map(i=>`${i.e} ${i.qty}× ${esc(i.n)}`).join(' · ')}</p>${o.message?`<div class="note">“${esc(o.message)}”</div>`:''}<div class="bar"><i style="width:${(s+1)*25}%"></i></div><div class="st">${STEPS[s]}</div></div>`}
+const isAct=o=>o.items.every(i=>i.a);
+function status(o){const t=(o.createdAt?(Date.now()-o.createdAt.toMillis())/1000:0)*(isAct(o)?6:1);return t<15?0:t<45?1:t<90?2:3}
+function orderCard(o,isRecv){const s=status(o),title=isRecv?`💗 @${esc(o.fromName)} te está enviando ${isAct(o)?'cariño':'comida'}`:`Para @${esc(o.toName)}`;
+ return `<div class="msg ${isRecv&&!o.seen?'new':''}"><h4>${title}</h4><p>${o.items.map(i=>`${i.e} ${i.qty}× ${esc(i.n)}`).join(' · ')}</p>${o.message?`<div class="note">“${esc(o.message)}”</div>`:''}<div class="bar"><i style="width:${(s+1)*25}%"></i></div><div class="st">${(isAct(o)?STEPS_A:STEPS)[s]}</div></div>`}
 function draw(){if(!me)return;drawFoods();
  $('recv').innerHTML=[...recv].sort((a,b)=>(b.createdAt?.toMillis()||9e15)-(a.createdAt?.toMillis()||9e15)).map(o=>orderCard(o,true)).join('')||'<p style="color:var(--muted);font-size:13px">Todavía no te mandaron nada. Pasá tu usuario 😉</p>';
  $('sent').innerHTML=[...sent].sort((a,b)=>(b.createdAt?.toMillis()||9e15)-(a.createdAt?.toMillis()||9e15)).map(o=>orderCard(o,false)).join('')||'<p style="color:var(--muted);font-size:13px">Aún no enviaste nada.</p>';
@@ -92,7 +163,7 @@ async function sendOrder(){const to=cleanU($('to').value),e=$('cerr'),total=cart
  if(!to)return e.textContent='Escribí el usuario de quien recibe';if(to===me.username)return e.textContent='No podés enviarte a vos mismo 😅';if(total>me.balance)return e.textContent='Saldo insuficiente 💸';
  $('send').disabled=true;
  try{const t=await db.collection('usernames').doc(to).get();if(!t.exists)throw{m:'Ese usuario no existe'};
-  const items=Object.entries(cart).map(([i,q])=>({n:FOODS[i].n,e:FOODS[i].e,qty:q})),b=db.batch();
+  const items=Object.entries(cart).map(([i,q])=>({n:FOODS[i].n,e:FOODS[i].e,qty:q,a:FOODS[i].c==='Acciones'?1:0})),b=db.batch();
   b.set(db.collection('orders').doc(),{fromUid:me.uid,fromName:me.username,toUid:t.data().uid,toName:to,items,total,message:$('note').value.trim().slice(0,140),seen:false,createdAt:FV.serverTimestamp()});
   b.update(db.collection('users').doc(me.uid),{balance:me.balance-total});await b.commit();
   cart={};closeM();draw();show('inbox');toast('¡Sorpresa enviada a @'+to+'! 💗')}
