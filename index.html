@@ -1,0 +1,101 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f35d91"><title>DeliLove 💗</title>
+<style>
+:root{--pink:#f35d91;--deep:#c92e69;--pale:#fff0f6;--ink:#26202a;--muted:#817681}*{box-sizing:border-box}body{margin:0;background:#fff8fb;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input{font:inherit}button{cursor:pointer;border:0}
+.app{max-width:520px;margin:auto;min-height:100dvh;padding-bottom:84px}.hidden{display:none!important}
+.top{padding:calc(20px + env(safe-area-inset-top)) 20px 18px;background:linear-gradient(135deg,#ff8bb3,#ed4c86);color:#fff;border-radius:0 0 26px 26px}.top h1{margin:0;font-size:24px}.top small{opacity:.95}
+.bal{display:inline-block;margin-top:12px;background:#fff;color:var(--deep);font-weight:850;border-radius:99px;padding:7px 14px;font-size:13px}
+.pg{display:none;padding:18px}.pg.on{display:block}h2{margin:4px 0 12px;font-size:19px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#fff;border:1px solid #f5e9ef;border-radius:18px;overflow:hidden}.pic{height:92px;display:grid;place-items:center;font-size:50px;background:linear-gradient(135deg,#ffe2ec,#fff0d8)}.cb{padding:11px}.cb b{font-size:14px}.cb small{display:block;color:var(--muted);margin-top:3px}.row{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.add{background:var(--pale);color:var(--deep);width:32px;height:32px;border-radius:11px;font-size:20px;font-weight:800}
+.chips{display:flex;gap:8px;overflow:auto;margin-bottom:14px}.chip{white-space:nowrap;background:#fff;border:1px solid #f2dce5;border-radius:99px;padding:8px 14px;font-size:12px;font-weight:700;color:#685d68}.chip.on{background:var(--pink);color:#fff}
+.btn{width:100%;background:var(--pink);color:#fff;border-radius:14px;padding:14px;font-weight:850;margin-top:10px}.btn.sec{background:#fff;color:var(--deep);border:1px solid #f1c8d9}
+.in{width:100%;border:1px solid #f2c6d8;background:#fff;border-radius:12px;padding:13px;margin-top:8px;outline:none}
+.auth{padding:calc(40px + env(safe-area-inset-top)) 24px;text-align:center}.auth .logo{font-size:64px}.auth h1{margin:6px 0;color:var(--deep)}.auth p{color:var(--muted);font-size:13px}.err{color:#c0223f;font-size:13px;min-height:18px;margin-top:8px}
+.tabs{display:flex;background:#fde4ee;border-radius:14px;padding:4px;margin:18px 0 6px}.tabs button{flex:1;background:none;padding:10px;border-radius:11px;font-weight:800;color:var(--deep)}.tabs .on{background:#fff}
+.msg{background:#fff;border:1px solid #f5e9ef;border-radius:18px;padding:14px;margin-bottom:12px}.msg.new{border-color:var(--pink);box-shadow:0 0 0 3px #f35d9122}.msg h4{margin:0 0 4px;font-size:15px}.msg p{margin:4px 0;font-size:13px;color:#5d525d}.note{background:var(--pale);border-radius:12px;padding:9px 11px;font-size:13px;margin-top:8px}
+.bar{height:7px;background:#f6e3ea;border-radius:9px;margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pink);transition:width .6s}.st{font-size:11px;font-weight:800;color:var(--deep);margin-top:6px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:flex;background:#fff;border-top:1px solid #f3e3ea;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}nav button{flex:1;background:none;font-size:11px;color:var(--muted);padding:6px;position:relative}nav b{display:block;font-size:20px}nav .on{color:var(--deep);font-weight:800}
+.dot{position:absolute;top:2px;right:24%;background:var(--pink);color:#fff;border-radius:99px;font-size:10px;min-width:17px;padding:1px 4px}
+.mb{position:fixed;inset:0;background:#21101bb0;display:none;align-items:end;justify-content:center;z-index:9}.mb.on{display:flex}.md{background:#fff8fb;width:min(520px,100%);border-radius:24px 24px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));max-height:88dvh;overflow:auto}
+.toast{position:fixed;top:calc(12px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-150%);background:#26202a;color:#fff;padding:12px 16px;border-radius:14px;font-size:13px;z-index:20;transition:.3s;max-width:92%}.toast.on{transform:translate(-50%,0)}
+.ci{display:flex;justify-content:space-between;font-size:14px;padding:6px 0}.ci button{background:var(--pale);color:var(--deep);border-radius:8px;width:26px;height:26px;margin:0 4px;font-weight:800}
+</style></head><body>
+<main class="app">
+<section id="auth" class="auth"><div class="logo">💗</div><h1>DeliLove</h1><p>Mandale comida rica a tu persona favorita, aunque estén lejos.</p>
+<div class="tabs"><button id="tL" class="on" onclick="tab('L')">Entrar</button><button id="tR" onclick="tab('R')">Crear cuenta</button></div>
+<input class="in" id="u" placeholder="Nombre de usuario" autocapitalize="none" autocomplete="username" maxlength="20"><input class="in" id="p" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password">
+<div class="err" id="err"></div><button class="btn" id="go" onclick="submitAuth()">Entrar</button></section>
+
+<div id="main" class="hidden">
+<header class="top"><h1>DeliLove 💗</h1><small id="hi"></small><br><span class="bal" id="bal"></span></header>
+<section class="pg on" id="home"><h2>¿Qué le mandamos hoy?</h2><div class="chips" id="chips"></div><div class="grid" id="foods"></div></section>
+<section class="pg" id="inbox"><h2>📥 Recibidos</h2><div id="recv"></div><h2>📤 Enviados</h2><div id="sent"></div></section>
+<section class="pg" id="me"><h2>Tu perfil</h2><div class="msg"><h4 id="meName"></h4><p>Compartí tu usuario con tu pareja para que pueda mandarte comida.</p></div><p style="font-size:12px;color:var(--muted)">Dinero 100% ficticio. No se hacen cobros ni entregas reales.</p><button class="btn sec" onclick="logout()">Cerrar sesión</button></section>
+<nav><button class="on" data-p="home" onclick="show('home')"><b>🍽️</b>Menú</button><button data-p="cart" onclick="openCart()"><b>🛍️</b>Pedido<span class="dot hidden" id="cb">0</span></button><button data-p="inbox" onclick="show('inbox')"><b>💌</b>Mensajes<span class="dot hidden" id="ib">0</span></button><button data-p="me" onclick="show('me')"><b>👤</b>Perfil</button></nav>
+</div></main>
+<div class="mb" id="mb" onclick="if(event.target===this)closeM()"><div class="md" id="md"></div></div><div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+// ====== 1) PEGÁ ACÁ TU CONFIG DE FIREBASE (Configuración del proyecto > Tus apps > Web) ======
+firebase.initializeApp({apiKey:"AIzaSyB6hMsLtpfqhk1GQoPXiqPQvz_EMrzadYQ",authDomain:"delilove.firebaseapp.com",projectId:"delilove",storageBucket:"delilove.firebasestorage.app",messagingSenderId:"11984177992",appId:"1:11984177992:web:0680746022164c4550817d"});
+// =========================================================================================
+const auth=firebase.auth(),db=firebase.firestore(),FV=firebase.firestore.FieldValue;
+const FOODS=[{n:'Burger clásica',c:'Hamburguesas',e:'🍔',p:4500,r:'Burger House'},{n:'Pizza muzzarella',c:'Pizzas',e:'🍕',p:6200,r:'La Pizzería'},{n:'Combo sushi',c:'Sushi',e:'🍣',p:7800,r:'Umami Sushi'},{n:'Papas crocantes',c:'Hamburguesas',e:'🍟',p:2000,r:'Burger House'},{n:'Torta de chocolate',c:'Postres',e:'🍰',p:2800,r:'Dulce Tentación'},{n:'Limonada',c:'Bebidas',e:'🍋',p:1200,r:'Dulce Tentación'}];
+const CATS=['Todos','Hamburguesas','Pizzas','Sushi','Postres','Bebidas'],STEPS=['Pedido recibido','En preparación','En camino','¡Entregado!'],START=20000;
+let me=null,cart={},cat='Todos',recv=[],sent=[],unsubs=[],ready={r:false,s:false},mode='L';
+const $=id=>document.getElementById(id),money=n=>'$'+n.toLocaleString('es-AR'),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),cleanU=s=>s.trim().toLowerCase().replace(/^@/,'');
+function toast(t){const x=$('toast');x.textContent=t;x.classList.add('on');clearTimeout(x.t);x.t=setTimeout(()=>x.classList.remove('on'),3500)}
+function tab(m){mode=m;$('tL').classList.toggle('on',m==='L');$('tR').classList.toggle('on',m==='R');$('go').textContent=m==='L'?'Entrar':'Crear mi cuenta';$('err').textContent=''}
+async function submitAuth(){const u=cleanU($('u').value),p=$('p').value,e=$('err');e.textContent='';
+ if(!/^[a-z0-9_]{3,20}$/.test(u))return e.textContent='Usuario: 3-20 letras, números o _';if(p.length<6)return e.textContent='La contraseña necesita 6+ caracteres';
+ $('go').disabled=true;const mail=u+'@delilove.app';
+ try{if(mode==='L')await auth.signInWithEmailAndPassword(mail,p);
+ else{if((await db.collection('usernames').doc(u).get()).exists)throw{code:'taken'};
+  const cr=await auth.createUserWithEmailAndPassword(mail,p),b=db.batch();
+  b.set(db.collection('usernames').doc(u),{uid:cr.user.uid});b.set(db.collection('users').doc(cr.user.uid),{username:u,balance:START,createdAt:FV.serverTimestamp()});await b.commit()}}
+ catch(x){const m={'taken':'Ese usuario ya existe','auth/email-already-in-use':'Ese usuario ya existe','auth/invalid-credential':'Usuario o contraseña incorrectos','auth/wrong-password':'Usuario o contraseña incorrectos','auth/user-not-found':'Ese usuario no existe','auth/network-request-failed':'Sin conexión'};e.textContent=m[x.code]||'No se pudo continuar. Probá de nuevo.'}
+ $('go').disabled=false}
+function logout(){auth.signOut()}
+auth.onAuthStateChanged(async u=>{unsubs.forEach(f=>f());unsubs=[];ready={r:false,s:false};
+ if(!u){me=null;$('auth').classList.remove('hidden');$('main').classList.add('hidden');return}
+ let snap;for(let i=0;i<6;i++){snap=await db.collection('users').doc(u.uid).get();if(snap.exists)break;await new Promise(r=>setTimeout(r,500))}
+ if(!snap.exists){toast('Error cargando tu perfil');return}
+ me={uid:u.uid,...snap.data()};$('auth').classList.add('hidden');$('main').classList.remove('hidden');$('hi').textContent='Hola, @'+me.username;$('meName').textContent='@'+me.username;
+ unsubs.push(db.collection('users').doc(u.uid).onSnapshot(s=>{me={...me,...s.data()};$('bal').textContent='💰 '+money(me.balance)+' (dinero de juego)'}));
+ unsubs.push(db.collection('orders').where('toUid','==',u.uid).onSnapshot(s=>{recv=s.docs.map(d=>({id:d.id,...d.data()}));
+  if(ready.r)s.docChanges().forEach(c=>{if(c.type==='added'&&!c.doc.metadata.hasPendingWrites){const o=c.doc.data();notify(`💗 @${o.fromName} te está enviando ${o.items.map(i=>i.qty+' '+i.n).join(', ')}`)}});ready.r=true;draw()}));
+ unsubs.push(db.collection('orders').where('fromUid','==',u.uid).onSnapshot(s=>{sent=s.docs.map(d=>({id:d.id,...d.data()}));draw()}));
+ draw()});
+function notify(t){toast(t);try{if('Notification'in window&&Notification.permission==='granted')new Notification('DeliLove 💗',{body:t})}catch(e){}}
+function show(p){document.querySelectorAll('.pg').forEach(x=>x.classList.toggle('on',x.id===p));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+ if(p==='inbox'){markSeen();try{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission()}catch(e){}}draw();scrollTo(0,0)}
+function markSeen(){recv.filter(o=>!o.seen).forEach(o=>db.collection('orders').doc(o.id).update({seen:true}).catch(()=>{}))}
+function drawFoods(){$('chips').innerHTML=CATS.map(c=>`<button class="chip ${c===cat?'on':''}" onclick="cat='${c}';drawFoods()">${c}</button>`).join('');
+ $('foods').innerHTML=FOODS.map((f,i)=>({f,i})).filter(x=>cat==='Todos'||x.f.c===cat).map(({f,i})=>`<article class="card"><div class="pic">${f.e}</div><div class="cb"><b>${f.n}</b><small>${f.r}</small><div class="row"><b style="color:var(--deep)">${money(f.p)}</b><button class="add" onclick="addC(${i})">+</button></div></div></article>`).join('')}
+function addC(i){cart[i]=(cart[i]||0)+1;draw();toast('Agregado 💗')}
+const cartTotal=()=>Object.entries(cart).reduce((s,[i,q])=>s+FOODS[i].p*q,0);
+function status(o){const t=o.createdAt?(Date.now()-o.createdAt.toMillis())/1000:0;return t<15?0:t<45?1:t<90?2:3}
+function orderCard(o,isRecv){const s=status(o),title=isRecv?`💗 @${esc(o.fromName)} te está enviando comida`:`Para @${esc(o.toName)}`;
+ return `<div class="msg ${isRecv&&!o.seen?'new':''}"><h4>${title}</h4><p>${o.items.map(i=>`${i.e} ${i.qty}× ${esc(i.n)}`).join(' · ')}</p>${o.message?`<div class="note">“${esc(o.message)}”</div>`:''}<div class="bar"><i style="width:${(s+1)*25}%"></i></div><div class="st">${STEPS[s]}</div></div>`}
+function draw(){if(!me)return;drawFoods();
+ $('recv').innerHTML=[...recv].sort((a,b)=>(b.createdAt?.toMillis()||9e15)-(a.createdAt?.toMillis()||9e15)).map(o=>orderCard(o,true)).join('')||'<p style="color:var(--muted);font-size:13px">Todavía no te mandaron nada. Pasá tu usuario 😉</p>';
+ $('sent').innerHTML=[...sent].sort((a,b)=>(b.createdAt?.toMillis()||9e15)-(a.createdAt?.toMillis()||9e15)).map(o=>orderCard(o,false)).join('')||'<p style="color:var(--muted);font-size:13px">Aún no enviaste nada.</p>';
+ const n=Object.values(cart).reduce((a,b)=>a+b,0),u=recv.filter(o=>!o.seen).length;$('cb').textContent=n;$('cb').classList.toggle('hidden',!n);$('ib').textContent=u;$('ib').classList.toggle('hidden',!u)}
+setInterval(()=>{if(me&&$('inbox').classList.contains('on'))draw()},3000);
+function openM(h){$('md').innerHTML=h;$('mb').classList.add('on')}function closeM(){$('mb').classList.remove('on')}
+function openCart(){const k=Object.keys(cart);if(!k.length)return openM('<h2>🛍️ Tu pedido está vacío</h2><p>Elegí algo del menú.</p><button class="btn" onclick="closeM();show(\'home\')">Ver menú</button>');
+ openM(`<h2>💌 Mandale algo rico</h2>${k.map(i=>`<div class="ci"><span>${FOODS[i].e} ${FOODS[i].n}</span><span><button onclick="qty(${i},-1)">−</button>${cart[i]}<button onclick="qty(${i},1)">+</button></span></div>`).join('')}<div class="ci"><b>Total</b><b>${money(cartTotal())}</b></div><input class="in" id="to" placeholder="@usuario de tu persona favorita" autocapitalize="none"><input class="in" id="note" maxlength="140" placeholder="Dedicatoria (opcional) 💗"><div class="err" id="cerr"></div><button class="btn" id="send" onclick="sendOrder()">Enviar sorpresa 🚀</button><p style="font-size:11px;color:var(--muted)">Se paga con dinero ficticio de la app.</p>`)}
+function qty(i,d){cart[i]+=d;if(cart[i]<=0)delete cart[i];draw();openCart()}
+async function sendOrder(){const to=cleanU($('to').value),e=$('cerr'),total=cartTotal();e.textContent='';
+ if(!to)return e.textContent='Escribí el usuario de quien recibe';if(to===me.username)return e.textContent='No podés enviarte a vos mismo 😅';if(total>me.balance)return e.textContent='Saldo insuficiente 💸';
+ $('send').disabled=true;
+ try{const t=await db.collection('usernames').doc(to).get();if(!t.exists)throw{m:'Ese usuario no existe'};
+  const items=Object.entries(cart).map(([i,q])=>({n:FOODS[i].n,e:FOODS[i].e,qty:q})),b=db.batch();
+  b.set(db.collection('orders').doc(),{fromUid:me.uid,fromName:me.username,toUid:t.data().uid,toName:to,items,total,message:$('note').value.trim().slice(0,140),seen:false,createdAt:FV.serverTimestamp()});
+  b.update(db.collection('users').doc(me.uid),{balance:me.balance-total});await b.commit();
+  cart={};closeM();draw();show('inbox');toast('¡Sorpresa enviada a @'+to+'! 💗')}
+ catch(x){e.textContent=x.m||'No se pudo enviar. Probá de nuevo.';$('send').disabled=false}}
+</script></body></html>
