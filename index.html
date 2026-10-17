@@ -53,10 +53,9 @@ async function submitAuth(){const u=cleanU($('u').value),p=$('p').value,e=$('err
  if(!/^[a-z0-9_]{3,20}$/.test(u))return e.textContent='Usuario: 3-20 letras, números o _';if(p.length<6)return e.textContent='La contraseña necesita 6+ caracteres';
  $('go').disabled=true;const mail=u+'@delilove.app';
  try{if(mode==='L')await auth.signInWithEmailAndPassword(mail,p);
- else{if((await db.collection('usernames').doc(u).get()).exists)throw{code:'taken'};
-  const cr=await auth.createUserWithEmailAndPassword(mail,p),b=db.batch();
+ else{const cr=await auth.createUserWithEmailAndPassword(mail,p),b=db.batch();
   b.set(db.collection('usernames').doc(u),{uid:cr.user.uid});b.set(db.collection('users').doc(cr.user.uid),{username:u,balance:START,createdAt:FV.serverTimestamp()});await b.commit()}}
- catch(x){const m={'taken':'Ese usuario ya existe','auth/email-already-in-use':'Ese usuario ya existe','auth/invalid-credential':'Usuario o contraseña incorrectos','auth/wrong-password':'Usuario o contraseña incorrectos','auth/user-not-found':'Ese usuario no existe','auth/network-request-failed':'Sin conexión'};e.textContent=m[x.code]||'No se pudo continuar. Probá de nuevo.'}
+ catch(x){console.error(x);const m={'taken':'Ese usuario ya existe','auth/email-already-in-use':'Ese usuario ya existe','auth/invalid-credential':'Usuario o contraseña incorrectos','auth/wrong-password':'Usuario o contraseña incorrectos','auth/user-not-found':'Ese usuario no existe','auth/network-request-failed':'Sin conexión','permission-denied':'Error de permisos: revisá las reglas de Firestore','auth/operation-not-allowed':'Falta activar Correo/contraseña en Authentication'};e.textContent=m[x.code]||'No se pudo continuar. Probá de nuevo.'}
  $('go').disabled=false}
 function logout(){auth.signOut()}
 auth.onAuthStateChanged(async u=>{unsubs.forEach(f=>f());unsubs=[];ready={r:false,s:false};
