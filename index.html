@@ -5,7 +5,7 @@
 .top{padding:calc(20px + env(safe-area-inset-top)) 20px 18px;background:linear-gradient(135deg,#000,#22222c);color:#fff;border-radius:0 0 26px 26px}.top h1{margin:0;font-size:24px}.top small{opacity:.95}
 .bal{display:inline-block;margin-top:12px;background:var(--card);color:var(--deep);font-weight:850;border-radius:99px;padding:7px 14px;font-size:13px}
 .pg{display:none;padding:18px}.pg.on{display:block}h2{margin:4px 0 12px;font-size:19px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}.pic{height:92px;display:grid;place-items:center;font-size:50px;background:linear-gradient(135deg,#23232d,#17171d)}.cb{padding:11px}.cb b{font-size:14px}.cb small{display:block;color:var(--muted);margin-top:3px}.row{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}.pic{height:120px;display:grid;place-items:center;font-size:50px;background:linear-gradient(135deg,#23232d,#17171d);position:relative;overflow:hidden}.pic img{width:100%;height:100%;object-fit:cover;display:block}.pic span.emoji{font-size:52px;filter:drop-shadow(0 2px 6px #0006)}.pic .shine{position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,#0006);pointer-events:none}.badge-lujo{position:absolute;top:8px;left:8px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-size:10px;font-weight:900;padding:4px 8px;border-radius:99px;letter-spacing:.4px}.badge-xp{position:absolute;top:8px;right:8px;background:#0b0b0fcc;color:#fff;font-size:10px;font-weight:800;padding:4px 8px;border-radius:99px;backdrop-filter:blur(6px)}.cb{padding:11px}.cb b{font-size:14px}.cb small{display:block;color:var(--muted);margin-top:3px}.row{display:flex;justify-content:space-between;align-items:center;margin-top:9px}
 .add{background:var(--pale);color:var(--deep);width:32px;height:32px;border-radius:11px;font-size:20px;font-weight:800}
 .chips{display:flex;gap:8px;overflow:auto;margin-bottom:14px}.chip{white-space:nowrap;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--muted)}.chip.on{background:var(--pink);color:#fff}
 .btn{width:100%;background:var(--pink);color:#fff;border-radius:14px;padding:14px;font-weight:850;margin-top:10px}.btn.sec{background:var(--card);color:var(--deep);border:1px solid var(--line)}
@@ -35,7 +35,7 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,
 
 <div id="main" class="hidden">
 <header class="top"><h1>DeliLove 💗</h1><small id="hi"></small><br><span class="bal" id="bal"></span></header>
-<section class="pg on" id="home"><h2>¿Qué le mandamos hoy?</h2><input class="in" id="q" placeholder="🔎 Buscar comida o acciones" oninput="drawFoods()" style="margin:0 0 12px"><div class="chips" id="chips"></div><div class="grid" id="foods"></div></section>
+<section class="pg on" id="home"><h2>¿Qué le mandamos hoy?</h2><input class="in" id="q" placeholder="🔎 Buscar comida, coches, mansiones, regalos..." oninput="drawFoods()" style="margin:0 0 12px"><div class="chips" id="chips"></div><div class="grid" id="foods"></div></section>
 <section class="pg" id="inbox"><div class="tabs" style="margin-top:0"><button id="sC" class="on" onclick="sub('C')">💬 Chats</button><button id="sP" onclick="sub('P')">📦 Pedidos</button></div>
 <div id="vC"><div style="display:flex;gap:8px"><input class="in" id="nc" placeholder="@usuario para chatear" autocapitalize="none" style="margin:0"><button class="add" style="width:46px;height:46px;flex:none" onclick="newChat()">➕</button></div><button class="btn sec" style="margin:10px 0 0" onclick="groupForm()">👥 Crear grupo</button><div id="cl" style="margin-top:14px"></div></div>
 <div id="vP" class="hidden"><h2>📥 Recibidos</h2><div id="recv"></div><h2>📤 Enviados</h2><div id="sent"></div></div></section>
@@ -58,7 +58,7 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,
 <div class="msg" onclick="challengeForm('rps')" style="cursor:pointer"><h4>✊✋✌️ Piedra, papel o tijera</h4><p>Mejor de 3 rondas</p></div>
 <div class="msg" onclick="challengeForm('draw')" style="cursor:pointer"><h4>🎨 Duelo de dibujo</h4><p>Dibujen el mismo tema en 60 s y voten · ideal para apostar 💰</p></div>
 <div class="msg" onclick="challengeForm('bk')" style="cursor:pointer"><h4>🔫 Ruleta de la escopeta</h4><p>2 a 4 jugadores · 3 vidas cada uno · ideal para apostar 💰</p></div></section>
-<section class="pg" id="admin"><h2>🛠️ Panel de dinero</h2><div class="msg"><p>Regalá dinero de juego a cualquier usuario (también a vos).</p><input class="in" id="aU" placeholder="@usuario" autocapitalize="none"><input class="in" id="aM" type="number" inputmode="numeric" placeholder="Monto (ej. 5000)"><div class="err" id="aE"></div><button class="btn" onclick="giveMoney()">Dar dinero 💰</button></div><div class="msg"><h4>⚠️ Reiniciar economía</h4><p>Pone el dinero de TODOS los usuarios en $0.</p><button class="btn sec" onclick="resetAll()">Poner a todos en $0</button></div><div class="msg"><h4>🏅 Rangos y XP</h4><p>Mirá el rango, la XP y el dinero de cada usuario, y editá su XP. Tu rango ADMIN es exclusivo.</p><input class="in" id="arq" placeholder="🔎 Buscar usuario" oninput="drawAR()" autocapitalize="none"><div id="ar" style="margin-top:10px"></div></div></section>
+<section class="pg" id="admin"><h2>🛠️ Panel de dinero</h2><div class="msg"><p>Regalá dinero de juego a cualquier usuario (también a vos). Solo el ADMIN puede usar esto.</p><input class="in" id="aU" placeholder="@usuario" autocapitalize="none"><input class="in" id="aM" type="number" inputmode="numeric" placeholder="Monto (ej. 5000)"><div class="err" id="aE"></div><button class="btn" onclick="giveMoney()">Dar dinero 💰</button></div><div class="msg" style="border-color:#f59e0b"><h4>🔧 Corregir usuario con dinero bugueado</h4><p>Si un usuario como <b>@ramilo</b> tiene mucho dinero que sube solo, corregilo acá. Poné 0 para resetearlo.</p><input class="in" id="rU" placeholder="@usuario a corregir (ej: ramilo)" autocapitalize="none"><input class="in" id="rM" type="number" inputmode="numeric" placeholder="Nuevo balance (ej: 0)"><div class="err" id="rE"></div><button class="btn" onclick="resetOne()">Corregir balance 🔧</button><button class="btn sec" onclick="resetRamilo()">⚡ Resetear a @ramilo a $0 de una</button></div><div class="msg"><h4>⚠️ Reiniciar economía</h4><p>Pone el dinero de TODOS los usuarios en $0.</p><button class="btn sec" onclick="resetAll()">Poner a todos en $0</button></div><div class="msg"><h4>🏅 Rangos y XP</h4><p>Mirá el rango, la XP y el dinero de cada usuario, y editá su XP. Tu rango ADMIN es exclusivo.</p><input class="in" id="arq" placeholder="🔎 Buscar usuario" oninput="drawAR()" autocapitalize="none"><div id="ar" style="margin-top:10px"></div></div></section>
 <nav><button class="on" data-p="home" onclick="show('home')"><b>🍽️</b>Menú</button><button data-p="games" onclick="show('games')"><b>🎮</b>Juegos</button><button data-p="cart" onclick="openCart()"><b>🛍️</b>Pedido<span class="dot hidden" id="cb">0</span></button><button data-p="inbox" onclick="show('inbox')"><b>💌</b>Mensajes<span class="dot hidden" id="ib">0</span></button><button data-p="people" onclick="show('people')"><b>👥</b>Personas<span class="dot hidden" id="pb">0</span></button><button class="hidden" id="navAdmin" data-p="admin" onclick="show('admin')"><b>🛠️</b>Admin</button><button data-p="me" onclick="show('me')"><b>👤</b>Perfil</button></nav>
 </div></main>
 <div class="mb" id="mb" onclick="if(event.target===this)closeM()"><div class="md" id="md"></div></div><div class="chat" id="chat"><div class="ch"><button onclick="closeChat()">←</button><span id="chn" style="flex:1"></span><button onclick="groupSong()">🎵</button><button onclick="chatMenu()">⋮</button></div>
@@ -107,56 +107,102 @@ Flores|🌻|Girasoles|1800|Florería Rosa
 Flores|🌷|Tulipanes|2200|Florería Rosa
 Flores|💐|Ramo de rosas rojas|3000|Florería Rosa
 Flores|🌸|Flores de cerezo|2000|Florería Rosa
-Hamburguesas|🍔|Burger clásica|4500|Burger House
-Hamburguesas|🧀|Cheeseburger doble|5800|Burger House
-Hamburguesas|🥓|Burger con bacon|6200|Burger House
-Hamburguesas|🍟|Papas crocantes|2000|Burger House
-Hamburguesas|🌭|Pancho completo|2500|Burger House
-Hamburguesas|🍗|Pollo frito|5200|Crunchy Chicken
-Hamburguesas|🥪|Sándwich de milanesa|4800|Crunchy Chicken
-Pizzas|🍕|Pizza muzzarella|6200|La Pizzería
-Pizzas|🍕|Pizza napolitana|7000|La Pizzería
-Pizzas|🍕|Pizza pepperoni|7400|La Pizzería
-Pizzas|🧄|Fugazzeta|7200|La Pizzería
-Pizzas|🥟|Empanadas x6|4200|La Pizzería
-Pizzas|🥖|Pan de ajo|2200|La Pizzería
-Sushi|🍣|Combo sushi|7800|Umami Sushi
-Sushi|🍱|Bento box|8500|Umami Sushi
-Sushi|🍤|Tempura de langostinos|6500|Umami Sushi
-Sushi|🍜|Ramen|7200|Umami Sushi
-Sushi|🍙|Onigiri|2400|Umami Sushi
-Tacos|🌮|Tacos x3|5200|Casa Pancho
-Tacos|🌯|Burrito|5600|Casa Pancho
-Tacos|🧆|Nachos con queso|3800|Casa Pancho
-Tacos|🥑|Guacamole|3000|Casa Pancho
-Pastas|🍝|Spaghetti|6000|Nonna Pasta
-Pastas|🍝|Ravioles|6800|Nonna Pasta
-Pastas|🍲|Lasagna|7500|Nonna Pasta
-Pastas|🥗|Ensalada césar|4500|Nonna Pasta
-Postres|🍰|Torta de chocolate|2800|Dulce Tentación
-Postres|🧁|Cupcake|1800|Dulce Tentación
-Postres|🍩|Donas x3|2600|Dulce Tentación
-Postres|🍪|Cookies|2000|Dulce Tentación
-Postres|🍓|Frutillas con chocolate|5400|Dulce Tentación
-Postres|🍮|Flan con dulce de leche|2500|Dulce Tentación
-Postres|🥧|Cheesecake|3200|Dulce Tentación
-Helados|🍦|Cono de helado|1800|Frío Polar
-Helados|🍨|Pote de helado|4000|Frío Polar
-Helados|🍧|Raspado|1500|Frío Polar
-Helados|🍫|Banana split|3500|Frío Polar
-Bebidas|🍋|Limonada|1200|Café Bonito
-Bebidas|🥤|Frappé rosa|2800|Café Bonito
-Bebidas|🧋|Bubble tea|3200|Café Bonito
-Bebidas|☕|Café con leche|1500|Café Bonito
-Bebidas|🍫|Chocolate caliente|2200|Café Bonito
-Bebidas|🧃|Jugo natural|1800|Café Bonito
-Bebidas|🍹|Licuado de frutilla|2600|Café Bonito
-Desayuno|🥐|Medialunas x3|2400|Buen Día
-Desayuno|🥞|Panqueques|3600|Buen Día
-Desayuno|🍳|Desayuno completo|4800|Buen Día
-Desayuno|🧇|Waffles|3800|Buen Día
-Desayuno|🍞|Tostadas con palta|2800|Buen Día`.split('\n').map(l=>{const[c,e,n,p,r]=l.split('|');return{c,e,n,p:+p,r}});
-const CATS=['Todos','Acciones','Cuadros','Joyas','Flores','Hamburguesas','Pizzas','Sushi','Tacos','Pastas','Postres','Helados','Bebidas','Desayuno'],STEPS=['Pedido recibido','En preparación','En camino','¡Entregado!'],STEPS_A=['Enviando…','Viajando por el aire ✨','Casi llega','¡Recibido con amor! 💗'],START=100;
+Hamburguesas|🍔|Burger clásica|4500|Burger House|https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80
+Hamburguesas|🧀|Cheeseburger doble|5800|Burger House|https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80
+Hamburguesas|🥓|Burger con bacon|6200|Burger House|https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80
+Hamburguesas|🍟|Papas crocantes|2000|Burger House|https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80
+Hamburguesas|🌭|Pancho completo|2500|Burger House|https://images.unsplash.com/photo-1612392062631-94dd858cba88?w=600&q=80
+Hamburguesas|🍗|Pollo frito|5200|Crunchy Chicken|https://images.unsplash.com/photo-1626645738196-c2a65574f255?w=600&q=80
+Hamburguesas|🥪|Sándwich de milanesa|4800|Crunchy Chicken|https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?w=600&q=80
+Pizzas|🍕|Pizza muzzarella|6200|La Pizzería|https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80
+Pizzas|🍕|Pizza napolitana|7000|La Pizzería|https://images.unsplash.com/photo-1598023696416-0193a0bcd302?w=600&q=80
+Pizzas|🍕|Pizza pepperoni|7400|La Pizzería|https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80
+Pizzas|🧄|Fugazzeta|7200|La Pizzería|https://images.unsplash.com/photo-1579751626657-72bc17010498?w=600&q=80
+Pizzas|🥟|Empanadas x6|4200|La Pizzería|https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=80
+Pizzas|🥖|Pan de ajo|2200|La Pizzería|https://images.unsplash.com/photo-1619531038897-deaff57a2cf7?w=600&q=80
+Sushi|🍣|Combo sushi|7800|Umami Sushi|https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=600&q=80
+Sushi|🍱|Bento box|8500|Umami Sushi|https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&q=80
+Sushi|🍤|Tempura de langostinos|6500|Umami Sushi|https://images.unsplash.com/photo-1562802378-063ec03bb7a1?w=600&q=80
+Sushi|🍜|Ramen|7200|Umami Sushi|https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&q=80
+Sushi|🍙|Onigiri|2400|Umami Sushi|https://images.unsplash.com/photo-1532347231146-80afc9e3df2b?w=600&q=80
+Tacos|🌮|Tacos x3|5200|Casa Pancho|https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80
+Tacos|🌯|Burrito|5600|Casa Pancho|https://images.unsplash.com/photo-1625937326075-287c84d978a5?w=600&q=80
+Tacos|🧆|Nachos con queso|3800|Casa Pancho|https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?w=600&q=80
+Tacos|🥑|Guacamole|3000|Casa Pancho|https://images.unsplash.com/photo-1604909052743-94e8c3226d45?w=600&q=80
+Pastas|🍝|Spaghetti|6000|Nonna Pasta|https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80
+Pastas|🍝|Ravioles|6800|Nonna Pasta|https://images.unsplash.com/photo-1481931098730-318b6f776db0?w=600&q=80
+Pastas|🍲|Lasagna|7500|Nonna Pasta|https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=600&q=80
+Pastas|🥗|Ensalada césar|4500|Nonna Pasta|https://images.unsplash.com/photo-1512621776952-a57141f2eefd?w=600&q=80
+Postres|🍰|Torta de chocolate|2800|Dulce Tentación|https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&q=80
+Postres|🧁|Cupcake|1800|Dulce Tentación|https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=600&q=80
+Postres|🍩|Donas x3|2600|Dulce Tentación|https://images.unsplash.com/photo-1551024506-0bccd828d307?w=600&q=80
+Postres|🍪|Cookies|2000|Dulce Tentación|https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&q=80
+Postres|🍓|Frutillas con chocolate|5400|Dulce Tentación|https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80
+Postres|🍮|Flan con dulce de leche|2500|Dulce Tentación|https://images.unsplash.com/photo-1488477181946-64290103bb53?w=600&q=80
+Postres|🥧|Cheesecake|3200|Dulce Tentación|https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=600&q=80
+Helados|🍦|Cono de helado|1800|Frío Polar|https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=600&q=80
+Helados|🍨|Pote de helado|4000|Frío Polar|https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80
+Helados|🍧|Raspado|1500|Frío Polar|https://images.unsplash.com/photo-1488900128323-21503983a07e?w=600&q=80
+Helados|🍫|Banana split|3500|Frío Polar|https://images.unsplash.com/photo-1576506295286-5cda18df43e7?w=600&q=80
+Bebidas|🍋|Limonada|1200|Café Bonito|https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600&q=80
+Bebidas|🥤|Frappé rosa|2800|Café Bonito|https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80
+Bebidas|🧋|Bubble tea|3200|Café Bonito|https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?w=600&q=80
+Bebidas|☕|Café con leche|1500|Café Bonito|https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&q=80
+Bebidas|🍫|Chocolate caliente|2200|Café Bonito|https://images.unsplash.com/photo-1514443212736-38d409a746f8?w=600&q=80
+Bebidas|🧃|Jugo natural|1800|Café Bonito|https://images.unsplash.com/photo-1621506289937-a8e4df240550?w=600&q=80
+Bebidas|🍹|Licuado de frutilla|2600|Café Bonito|https://images.unsplash.com/photo-1623065422902-30a5ac5c4862?w=600&q=80
+Desayuno|🥐|Medialunas x3|2400|Buen Día|https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80
+Desayuno|🥞|Panqueques|3600|Buen Día|https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=80
+Desayuno|🍳|Desayuno completo|4800|Buen Día|https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&q=80
+Desayuno|🧇|Waffles|3800|Buen Día|https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=600&q=80
+Desayuno|🍞|Tostadas con palta|2800|Buen Día|https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&q=80
+Coches|🏎️|Ferrari F8 Tributo|2500000|Supercarros|https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&q=80
+Coches|🏎️|Lamborghini Aventador|3200000|Supercarros|https://images.unsplash.com/photo-1511919884226-fd3ec7956e9d?w=600&q=80
+Coches|🏎️|Bugatti Chiron|5000000|Supercarros|https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80
+Coches|🚗|Rolls Royce Phantom|2800000|Lujo Wheels|https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&q=80
+Coches|🚗|Porsche 911 GT3|650000|Lujo Wheels|https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80
+Coches|🚙|Mercedes Clase G|480000|Lujo Wheels|https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?w=600&q=80
+Coches|⚡|Tesla Model S Plaid|350000|Lujo Wheels|https://images.unsplash.com/photo-1617704548623-340376564e68?w=600&q=80
+Coches|🏁|BMW M4 Competition|320000|Lujo Wheels|https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=80
+Coches|🚘|Audi R8 V10|520000|Lujo Wheels|https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=80
+Motos|🏍️|Ducati Panigale V4|280000|Moto Store|https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&q=80
+Motos|🏍️|Harley Davidson Fat Boy|220000|Moto Store|https://images.unsplash.com/photo-1558980664-2506f77834ec?w=600&q=80
+Motos|🏍️|Yamaha R1|180000|Moto Store|https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=600&q=80
+Motos|🏍️|Kawasaki Ninja H2|310000|Moto Store|https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600&q=80
+Motos|🛵|Vespa 946 Luxury|95000|Moto Store|https://images.unsplash.com/photo-1527903789995-dc8ad2ad6de0?w=600&q=80
+Mansiones|🏰|Mansión Beverly Hills|8500000|Estate Elite|https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80
+Mansiones|🏖️|Villa frente al mar|6000000|Estate Elite|https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80
+Mansiones|🏙️|Penthouse en Dubai|10000000|Estate Elite|https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80
+Mansiones|🏛️|Castillo moderno|12000000|Estate Elite|https://images.unsplash.com/photo-1600607687644-c71734b42498?w=600&q=80
+Mansiones|🌲|Casa de campo de lujo|1500000|Estate Elite|https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80
+Mansiones|🏝️|Isla privada|15000000|Estate Elite|https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80
+Mansiones|🏢|Departamento Premium|900000|Estate Elite|https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80
+Mansiones|🏡|Mansión con helipuerto|7200000|Estate Elite|https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80
+Lujo|⌚|Rolex Daytona|850000|Relojería Fina|https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=600&q=80
+Lujo|⌚|Patek Philippe Nautilus|1200000|Relojería Fina|https://images.unsplash.com/photo-1524805444973-bf35c6737768?w=600&q=80
+Lujo|👜|Bolso Hermès Birkin|450000|Relojería Fina|https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80
+Lujo|🛥️|Yate de lujo 60 pies|9000000|Relojería Fina|https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80
+Lujo|✈️|Jet privado G650|14000000|Relojería Fina|https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80
+Lujo|💎|Diamante 5 quilates|2000000|Relojería Fina|https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80
+Lujo|💍|Collar de diamantes|750000|Relojería Fina|https://images.unsplash.com/photo-1515569655783-756e9c9c3dd9?w=600&q=80
+Lujo|⌚|Audemars Piguet Royal Oak|600000|Relojería Fina|https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&q=80
+Lujo|🕶️|Colección Supreme x LV|380000|Relojería Fina|https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80
+Tecnología|📱|iPhone 16 Pro Max 1TB|380000|Tech Store|https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600&q=80
+Tecnología|💻|MacBook Pro M3 Max|550000|Tech Store|https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&q=80
+Tecnología|🎮|PlayStation 5 Pro Pack|250000|Tech Store|https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=600&q=80
+Tecnología|🚛|Tesla Cybertruck|680000|Tech Store|https://images.unsplash.com/photo-1583121224097-3d250cc941f5?w=600&q=80
+Tecnología|🚁|Drone DJI Mavic 3 Cine|420000|Tech Store|https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=600&q=80
+Tecnología|🎥|Home Cinema 8K 120 pulgadas|800000|Tech Store|https://images.unsplash.com/photo-1593784991095-a205069470b6?w=600&q=80
+Tecnología|⌚|Apple Vision Pro|520000|Tech Store|https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=600&q=80
+Tecnología|🎹|Piano Steinway and Sons|1200000|Tech Store|https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=600&q=80
+Viajes|✈️|Viaje a Paris Primera Clase|600000|Travel VIP|https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=80
+Viajes|🛳️|Crucero Mundial 30 dias|950000|Travel VIP|https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80
+Viajes|🦁|Safari en Africa 5 estrellas|700000|Travel VIP|https://images.unsplash.com/photo-1516026672322-bc52d61a55e5?w=600&q=80
+Viajes|🏝️|Viaje a Maldivas All Inclusive|850000|Travel VIP|https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600&q=80
+Viajes|🌍|Vuelta al Mundo en Jet Privado|5500000|Travel VIP|https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80
+Viajes|🗼|Tour Japon 15 dias Lujo|480000|Travel VIP|https://images.unsplash.com/photo-1492571350019-22de08371fd3?w=600&q=80
+Viajes|🎢|Disney VIP Ultimate 7 dias|350000|Travel VIP|https://images.unsplash.com/photo-1597466599360-3b9775841aec?w=600&q=80`.split('\n').map(l=>{const[c,e,n,p,r,img]=l.split('|');return{c,e,n,p:+p,r,img}});
+const CATS=['Todos','Acciones','Cuadros','Joyas','Flores','Hamburguesas','Pizzas','Sushi','Tacos','Pastas','Postres','Helados','Bebidas','Desayuno','Coches','Motos','Mansiones','Lujo','Tecnología','Viajes'],STEPS=['Pedido recibido','En preparación','En camino','¡Entregado!'],STEPS_A=['Enviando…','Viajando por el aire ✨','Casi llega','¡Recibido con amor! 💗'],START=100;
 let me=null,cart={},cat='Todos',recv=[],sent=[],unsubs=[],ready={r:false,s:false},mode='L';
 const ADMIN='fxcuyair';
 const $=id=>document.getElementById(id),money=n=>'$'+n.toLocaleString('es-AR'),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),cleanU=s=>s.trim().toLowerCase().replace(/^@/,'');
@@ -173,8 +219,17 @@ async function submitAuth(){const u=cleanU($('u').value),p=$('p').value,e=$('err
 async function giveMoney(){const u=cleanU($('aU').value),n=parseInt($('aM').value),e=$('aE');e.textContent='';
  if(!u)return e.textContent='Escribí el usuario';if(!(n>0&&n<=1000000))return e.textContent='Monto entre 1 y 1.000.000';
  try{const t=await db.collection('usernames').doc(u).get();if(!t.exists)return e.textContent='Ese usuario no existe';
-  await db.collection('users').doc(t.data().uid).update({balance:FV.increment(n)});toast('💰 Le diste '+money(n)+' a @'+u);$('aU').value='';$('aM').value=''}
+  await db.collection('users').doc(t.data().uid).update({balance:FV.increment(n),lastPay:'admin_'+Date.now()});toast('💰 Le diste '+money(n)+' a @'+u);$('aU').value='';$('aM').value=''}
  catch(x){console.error(x);e.textContent='No se pudo. ¿Publicaste las reglas nuevas?'}}
+async function resetOne(){const u=cleanU($('rU').value),n=Math.floor(+$('rM').value),e=$('rE');e.textContent='';
+ if(!u)return e.textContent='Escribí el usuario';if(!(n>=0))return e.textContent='El monto debe ser 0 o mas';
+ try{const t=await db.collection('usernames').doc(u).get();if(!t.exists)return e.textContent='Ese usuario no existe';
+  await db.collection('users').doc(t.data().uid).update({balance:n,earned:0,earnDay:0,lastPay:'admin_'+Date.now()});toast('🔧 @'+u+' ahora tiene '+money(n));$('rU').value='';$('rM').value=''}
+ catch(x){console.error(x);e.textContent='No se pudo. ¿Publicaste las reglas nuevas?'}}
+async function resetRamilo(){if(!confirm('¿Resetear el balance de @ramilo a $0?'))return;
+ try{const t=await db.collection('usernames').doc('ramilo').get();if(!t.exists)return toast('El usuario @ramilo no existe');
+  await db.collection('users').doc(t.data().uid).update({balance:0,earned:0,earnDay:0,lastPay:'admin_'+Date.now()});toast('✅ @ramilo reseteado a $0')}
+ catch(x){console.error(x);toast('No se pudo. ¿Publicaste las reglas nuevas?')}}
 let gt,gt2;const sh=a=>[...a].sort(()=>Math.random()-.5);
 const QS=`¿Cuál es el planeta más grande del sistema solar?|Júpiter|Saturno|Marte
 ¿Cuántos corazones tiene un pulpo?|Tres|Uno|Dos
@@ -361,7 +416,7 @@ function drawAR(){const e=$('ar');if(!e||!me||me.username!==ADMIN||document.acti
  e.innerHTML=profs.filter(x=>x.username.includes(q)).sort((a,b)=>(xps[b.id]||0)-(xps[a.id]||0)||a.username.localeCompare(b.username)).map(x=>`<div class="cl"><div class="tx"><b>@${x.username}</b> ${rkb(x.id,x.username)}<small>⭐ ${xps[x.id]||0} XP · 💰 ${bals[x.id]==null?'…':money(bals[x.id])}</small></div>${x.username===ADMIN?'':`<button class="add" style="width:auto;padding:0 10px;font-size:12px" onclick="setXp('${x.id}','${x.username}')">✏️ XP</button>`}</div>`).join('')||'<p style="color:var(--muted);font-size:13px">No hay usuarios.</p>'}
 function setXp(uid,un){openM(`<h2>✏️ XP de @${esc(un)}</h2><p>Escribí la XP nueva (0 a 99999):</p><input class="in" id="xv" type="number" inputmode="numeric" value="${xps[uid]||0}"><button class="btn" onclick="saveXp('${uid}')">Guardar</button><button class="btn sec" onclick="closeM()">Cancelar</button>`)}
 function saveXp(uid){const n=Math.floor(+$('xv').value);if(!(n>=0&&n<=99999))return toast('Número no válido');db.collection('xp').doc(uid).set({xp:n,xpDay:0,xpGain:0}).then(()=>{closeM();toast('XP actualizada ⭐')}).catch(()=>toast('No se pudo. ¿Publicaste las reglas nuevas?'))}
-const xpU=p=>Math.min(30,Math.max(1,Math.round(p/200))),giftXp=()=>Math.min(50,Object.entries(cart).reduce((a,[i,q])=>a+q*xpU(FOODS[i].p),0));
+const xpU=p=>{if(p>=1000000)return Math.min(800,Math.round(p/2500));if(p>=500000)return Math.min(600,Math.round(p/2000));if(p>=100000)return Math.min(400,Math.round(p/1500));if(p>=50000)return Math.min(200,Math.round(p/1000));if(p>=20000)return Math.min(100,Math.round(p/800));return Math.min(30,Math.max(1,Math.round(p/200)))},giftXp=()=>Math.min(1000,Object.entries(cart).reduce((a,[i,q])=>a+q*xpU(FOODS[i].p),0));
 async function applyXp(d,g,quiet){if(!me)return;const mn=g?(g.mn||1):0,key=g?g.id+'|'+mn:'';if(g){if(xpBusy.has(key))return;xpBusy.add(key)}
  try{let res;await db.runTransaction(async t=>{const ref=db.collection('xp').doc(me.uid),r=await t.get(ref),o=r.exists?r.data():{},ox=o.xp||0,day=Math.floor(Date.now()/864e5),base=o.xpDay===day?(o.xpGain||0):0,dl=d>0?Math.max(0,Math.min(d,500-base)):Math.max(d,-ox),nx=ox+dl;
    t.set(ref,{xp:nx,xpDay:day,xpGain:base+Math.max(dl,0)});if(g)t.update(db.collection('games').doc(g.id),{['xpd_'+me.uid]:mn});res=[ox,nx,dl]});
@@ -490,7 +545,7 @@ function show(p){document.querySelectorAll('.pg').forEach(x=>x.classList.toggle(
  if(p==='inbox'){try{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission()}catch(e){}}draw();scrollTo(0,0)}
 function markSeen(){recv.filter(o=>!o.seen).forEach(o=>db.collection('orders').doc(o.id).update({seen:true}).catch(()=>{}))}
 function drawFoods(){$('chips').innerHTML=CATS.map(c=>`<button class="chip ${c===cat?'on':''}" onclick="cat='${c}';drawFoods()">${c}</button>`).join('');
- $('foods').innerHTML=FOODS.map((f,i)=>({f,i})).filter(x=>(cat==='Todos'||x.f.c===cat)&&(x.f.n+' '+x.f.c).toLowerCase().includes((($('q')||{}).value||'').toLowerCase())).map(({f,i})=>`<article class="card"><div class="pic">${f.e}</div><div class="cb"><b>${f.n}</b><small>${f.r} · ⭐ +${xpU(f.p)} XP</small><div class="row"><b style="color:var(--deep)">${money(f.p)}</b><button class="add" onclick="addC(${i})">+</button></div></div></article>`).join('')}
+ $('foods').innerHTML=FOODS.map((f,i)=>({f,i})).filter(x=>(cat==='Todos'||x.f.c===cat)&&(x.f.n+' '+x.f.c).toLowerCase().includes((($('q')||{}).value||'').toLowerCase())).map(({f,i})=>`<article class="card"><div class="pic">${f.img?`<img src="${f.img}" alt="${esc(f.n)}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=emoji>${f.e}</span><div class=shine></div>'">`:`<span class="emoji">${f.e}</span>`}<div class="shine"></div>${f.p>=100000?'<span class="badge-lujo">LUXURY</span>':''}<span class="badge-xp">⭐ +${xpU(f.p)} XP</span></div><div class="cb"><b>${f.n}</b><small>${f.r}</small><div class="row"><b style="color:var(--deep)">${money(f.p)}</b><button class="add" onclick="addC(${i})">+</button></div></div></article>`).join('')}
 function addC(i){cart[i]=(cart[i]||0)+1;draw();toast('Agregado 💗')}
 const cartTotal=()=>Object.entries(cart).reduce((s,[i,q])=>s+FOODS[i].p*q,0);
 const isAct=o=>o.items.every(i=>i.a);
